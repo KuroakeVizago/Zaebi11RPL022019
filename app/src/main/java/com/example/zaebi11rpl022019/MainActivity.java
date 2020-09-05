@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         btn_Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txt_Username.getText().toString() == "Admin" && txt_Password.getText().toString() == "Admin")
+                if (txt_Username.getText().toString() != "" && txt_Password.getText().toString() != "")
                 {
 
                     editor = pref.edit();
@@ -39,10 +40,14 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("Status", "LoggedIn");
                     editor.apply();
 
-                    startActivity(new Intent(getApplicationContext(), MainMenu.class));
+                    Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                    startActivity(intent);
                     finish();
 
                 }
+                else if (txt_Username.getText().toString() != "")
+                    Toast.makeText(MainActivity.this, "Username and password can't be left empty", Toast.LENGTH_SHORT).show();
+
             }
         });
 
