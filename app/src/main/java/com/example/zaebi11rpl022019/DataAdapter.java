@@ -24,7 +24,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.UserViewHolder
 
     public List<Model> dataList;
     public List<Model> dataListFull;
-    OnItemClickListener mListener;
+    private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -34,7 +34,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.UserViewHolder
         mListener = listener;
     }
 
-    public DataAdapter(List<Model> dataList, OnItemClickListener onItemClickListener) {
+    public DataAdapter(List<Model> dataList) {
         this.dataList = dataList;
     }
 
@@ -72,6 +72,18 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.UserViewHolder
             tv_listTitle = itemView.findViewById(R.id.tvname);
             tv_listDescription = itemView.findViewById(R.id.tvdesc);
             img_listImage = itemView.findViewById(R.id.ivprofile);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

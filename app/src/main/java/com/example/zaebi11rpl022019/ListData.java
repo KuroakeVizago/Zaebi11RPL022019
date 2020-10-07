@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.renderscript.RenderScript;
 import android.util.Log;
@@ -13,8 +14,10 @@ import android.view.Display;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -29,7 +32,7 @@ public class ListData extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private DataAdapter adapter;
-    private ArrayList<Model> DataArrayList; //kit add kan ke adapter
+    private List<Model> DataArrayList; //kit add kan ke adapter
     private ImageView tambah_data;
 
     @Override
@@ -42,7 +45,6 @@ public class ListData extends AppCompatActivity {
     }
 
     void addData() {
-        //offline, isi data offline dulu
         DataArrayList = new ArrayList<>();
         Model data1 = new Model();
         data1.setOriginal_title("Judul Film");
@@ -52,14 +54,6 @@ public class ListData extends AppCompatActivity {
         data1.setVote_count(100);
         data1.setRelease_date("01-01-2020");
         DataArrayList.add(data1);
-
-
-        adapter = new DataAdapter(DataArrayList, new DataAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-            }
-        });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListData.this);
         recyclerView.setLayoutManager(layoutManager);
@@ -104,11 +98,21 @@ public class ListData extends AppCompatActivity {
                                 DataArrayList.add(jsonObjectModel);
 
                             }
+                            adapter = new DataAdapter(DataArrayList);
 
-                            adapter = new DataAdapter(DataArrayList, new DataAdapter.OnItemClickListener() {
+                            adapter.setOnItemClickListener(new DataAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(int position) {
-
+                                    Model movie = DataArrayList.get(position);
+                                    Intent intent = new Intent(getApplicationContext(), MovieDetail.class);
+                                    intent.putExtra("id",movie.id);
+                                    intent.putExtra("judul",movie.original_title);
+                                    intent.putExtra("date",movie.release_date);
+                                    intent.putExtra("deskripsi",movie.overview);
+                                    intent.putExtra("path",movie.poster_path);
+                                    startActivity(intent);
+                                    Toast.makeText(ListData.this, ""+position, Toast.LENGTH_SHORT).show();
+                                    Log.d("Test", "clicked");
                                 }
                             });
 

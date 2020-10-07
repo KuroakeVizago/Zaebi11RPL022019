@@ -8,6 +8,17 @@ public class Model {
     String overview;
     int vote_count;
     String imageURL;
+    int id;
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
 
     public String getOriginal_title() {
         return original_title;

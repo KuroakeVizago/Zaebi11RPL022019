@@ -20,6 +20,8 @@ android {
 }
 
 dependencies {
+    apply plugin: 'realm-android'
+
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.amitshekhar.android:android-networking:1.0.2'
     implementation "androidx.cardview:cardview:1.0.0"
